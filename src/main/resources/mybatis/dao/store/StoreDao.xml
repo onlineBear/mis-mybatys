@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.anson.mis.dao.store.StoreDao">
+
+    <resultMap id="baseMap" type="Store">
+        <id column="id" property="id" jdbcType="NVARCHAR"/>
+        <result column="no" property="no" jdbcType="NVARCHAR"/>
+        <result column="name" property="name" jdbcType="NVARCHAR"/>
+        <result column="short_name" property="shortName" jdbcType="NVARCHAR"/>
+        <result column="address" property="address" jdbcType="NVARCHAR"/>
+        <result column="langitude" property="langitude" jdbcType="NVARCHAR"/>
+        <result column="latitude" property="latitude" jdbcType="NVARCHAR"/>
+        <result column="type_no" property="typeNo" jdbcType="NVARCHAR"/>
+        <result column="type_value" property="typeValue" jdbcType="NVARCHAR"/>
+        <result column="price_group_id" property="priceGroupId" jdbcType="NUMERIC"/>
+        <result column="area_group_id" property="areaGroupId" jdbcType="NUMERIC"/>
+        <result column="contract_group_id" property="contractGroupId" jdbcType="NUMERIC"/>
+        <result column="create_time" property="createTime" jdbcType="DATETIME"/>
+        <result column="create_user_id" property="createUserId" jdbcType="NUMERIC"/>
+        <result column="modified_time" property="modifiedTime" jdbcType="DATETIME"/>
+        <result column="modified_user_id" property="modifiedUserId" jdbcType="NUMERIC"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+      	${alias}.id, ${alias}.no, ${alias}.name, ${alias}.short_name,
+        ${alias}.address, ${alias}.langitude, ${alias}.latitude, ${alias}.type_no,
+        ${alias}.type_value, ${alias}.price_group_id, ${alias}.area_group_id, ${alias}.contract_group_id,
+        ${alias}.create_time, ${alias}.create_user_id, ${alias}.modified_time, ${alias}.modified_user_id
+    </sql>
+
+    <select id="findById" resultMap="baseMap">
+		select <include refid="baseColumns"><property name="alias" value="s"/></include>
+		from store as s
+		where s.id = #{id}
+    </select>
+</mapper>

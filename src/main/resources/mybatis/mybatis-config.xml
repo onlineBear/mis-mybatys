@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+      	<!-- 在null时也调用 setter,适应于返回Map,3.2版本以上可用 -->
+        <setting name="callSettersOnNulls" value="true"/>
+    </settings>
+
+    <!-- 别名 -->
+    <typeAliases>
+    	<typeAlias type="org.anson.mis.entity.store.Store" alias="Store"/>
+    </typeAliases>
+</configuration>
