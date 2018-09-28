@@ -3,7 +3,7 @@ package org.anson.mis.entity.store;
 import java.util.Date;
 
 public class Store {
-    private Integer id;
+    private Long id;
     private String no;
     private String name;
     private String shortName;
@@ -24,11 +24,11 @@ public class Store {
     public Store() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
