@@ -10,6 +10,8 @@
 
     <!-- 别名 -->
     <typeAliases>
-    	<typeAlias type="org.anson.mis.entity.store.Store" alias="Store"/>
+        <typeAlias type="org.anson.mis.entity.Example" alias="example"/>
+        <!-- secure -->
+        <typeAlias type="org.anson.mis.entity.system.User" alias="user"/>
     </typeAliases>
 </configuration>

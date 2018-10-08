@@ -18,29 +18,6 @@ go
 
 -- 国际化 很麻烦 , 一个是很多名称要国际化, 另一个是 价格/税率 等和币种有关系的也需要做, 不做, 意义不大
 
-create table user_base
-(
-  id numeric(20) not null,
-
-  no nvarchar(20) not null,			-- 唯一
-  name nvarchar(40) not null,
-  password nvarchar(40) not null,
-  email nvarchar(100) not null,
-  mobile nvarchar(13) not null,
-
-  create_time datetime not null,
-  create_user_id numeric(20) not null,
-  modified_time datetime null,
-  modified_user_id numeric(20) null,
-
-  constraint pk_user_base primary key(id)
-)
-go
-
-create unique index uq_user_base
-  on user_base(no)
-go
-
 create table price_group
 (
   id numeric(20) not null,

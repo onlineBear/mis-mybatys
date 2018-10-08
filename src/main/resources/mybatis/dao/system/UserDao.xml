@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.anson.mis.dao.system.UserDao">
+
+    <resultMap id="baseMap" type="User">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="no" property="no" jdbcType="NVARCHAR"/>
+        <result column="name" property="name" jdbcType="NVARCHAR"/>
+        <result column="password" property="password" jdbcType="NVARCHAR"/>
+        <result column="email" property="email" jdbcType="NVARCHAR"/>
+        <result column="mobile" property="mobile" jdbcType="NVARCHAR"/>
+        <result column="profile_photo_url" property="profilePhotoUrl" jdbcType="NVARCHAR"/>
+        <result column="personal_statement" property="personalStatement" jdbcType="NVARCHAR"/>
+        <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+      	${alias}.id, ${alias}.no, ${alias}.name, ${alias}.password,
+        ${alias}.email, ${alias}.mobile, ${alias}.profile_photo_url, ${alias}.personal_statement,
+        ${alias}.last_update_time
+    </sql>
+
+    <sql id="Example_Where_Clause" >
+        <where >
+          <foreach collection="oredCriteria" item="criteria" separator="or" >
+            <if test="criteria.valid" >
+              <trim prefix="(" suffix=")" prefixOverrides="and" >
+                <foreach collection="criteria.criteria" item="criterion" >
+                  <choose >
+                    <when test="criterion.noValue" >
+                      and ${criterion.condition}
+                    </when>
+                    <when test="criterion.singleValue" >
+                      and ${criterion.condition} #{criterion.value}
+                    </when>
+                    <when test="criterion.betweenValue" >
+                      and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                    </when>
+                    <when test="criterion.listValue" >
+                      and ${criterion.condition}
+                      <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                        #{listItem}
+                      </foreach>
+                    </when>
+                  </choose>
+                </foreach>
+              </trim>
+            </if>
+          </foreach>
+        </where>
+    </sql>
+
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+          <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+            <if test="criteria.valid" >
+              <trim prefix="(" suffix=")" prefixOverrides="and" >
+                <foreach collection="criteria.criteria" item="criterion" >
+                  <choose >
+                    <when test="criterion.noValue" >
+                      and ${criterion.condition}
+                    </when>
+                    <when test="criterion.singleValue" >
+                      and ${criterion.condition} #{criterion.value}
+                    </when>
+                    <when test="criterion.betweenValue" >
+                      and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                    </when>
+                    <when test="criterion.listValue" >
+                      and ${criterion.condition}
+                      <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                        #{listItem}
+                      </foreach>
+                    </when>
+                  </choose>
+                </foreach>
+              </trim>
+            </if>
+          </foreach>
+        </where>
+    </sql>
+
+    <select id="selById" parameterType="Long" resultMap="baseMap">
+		select <include refid="baseColumns"><property name="alias" value="u"/></include>
+		from [user] as u
+		where u.id = #{id}
+    </select>
+
+    <select id="selByIds" resultMap="baseMap">
+		select <include refid="baseColumns"><property name="alias" value="u"/></include>
+		from [user] as u
+		where u.id in
+            <foreach collection="list" item="item" open="(" close=")" separator=",">
+                #{item.id}
+            </foreach>
+        order by u.id desc
+    </select>
+
+    <select id="selByIdList" resultMap="baseMap">
+		select <include refid="baseColumns"><property name="alias" value="u"/></include>
+		from [user] as u
+		where u.id in
+            <foreach collection="list" item="item" open="(" close=")" separator=",">
+                #{item.id}
+            </foreach>
+        order by u.id desc
+    </select>
+
+    <select id="selByIdArray" resultMap="baseMap">
+		select <include refid="baseColumns"><property name="alias" value="u"/></include>
+		from [user] as u
+		where u.id in
+            <foreach collection="array" item="item" open="(" close=")" separator=",">
+                #{item.id}
+            </foreach>
+        order by u.id desc
+    </select>
+
+    <select id="selByExample" parameterType="example" resultMap="baseMap">
+        select
+            <include refid="baseColumns"><property name="alias" value="u"/></include>
+		from [user] as u
+            <if test="_parameter != null" >
+              <include refid="Example_Where_Clause" />
+            </if>
+        <if test="orderByClause != null" >
+          order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="countByExample" parameterType="example" resultType="Long" >
+        select count(1) from [user]
+        <if test="_parameter != null" >
+          <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="user">
+        insert into [user]
+              (id, no, name, password, email,
+              mobile, profile_photo_url, personal_statement, last_update_time)
+        values(#{id}, #{no}, #{name}, #{password}, #{email},
+              #{mobile}, #{profilePhotoUrl}, #{personalStatement}, #{lastUpdateTime})
+    </insert>
+
+    <insert id="insertList">
+        insert into [user]
+            (id, no, name, password, email,
+             mobile, profile_photo_url, personal_statement, last_update_time)
+        values
+           <foreach collection="list" item="item" separator="," open="(" close=")">
+               #{id}, #{no}, #{password}, #{email},
+               #{mobile}, #{profilePhotoUrl}, #{personalStatement}, #{lastUpdateTime}
+           </foreach>
+    </insert>
+
+    <update id="updateById" parameterType="user">
+        update [user]
+        set no = #{no},
+            name = #{name},
+            password = #{password},
+            email = #{email},
+            mobile = #{mobile},
+            profile_photo_url = #{profilePhotoUrl},
+            personal_statement = #{personalStatement},
+            last_update_time = #{lastUpdateTime}
+        where id = #{id}
+    </update>
+
+    <update id="updateByIdSelective" parameterType="user">
+        update [user]
+        <set>
+            <if test="no != null">
+                no = #{no},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile},
+            </if>
+            <if test="profile_photo_url != null">
+                profile_photo_url = #{profilePhotoUrl},
+            </if>
+            <if test="personal_statement != null">
+                personal_statement = #{personalStatement},
+            </if>
+            <if test="last_update_time">
+                last_update_time = #{lastUpdateTime}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateByExample" parameterType="map">
+        update [user]
+        set no = #{record.no},
+            name = #{record.name},
+            password = #{record.password},
+            email = #{record.email},
+            mobile = #{record.mobile},
+            profile_photo_url = #{record.profilePhotoUrl},
+            personal_statement = #{record.personalStatement},
+            last_update_time = #{record.lastUpdateTime}
+        <if test="_parameter != null" >
+          <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByExampleSelective" parameterType="map">
+        update [user]
+        <set>
+            <if test="record.no != null">
+                no = #{record.no},
+            </if>
+            <if test="record.name != null">
+                name = #{record.name},
+            </if>
+            <if test="record.password != null">
+                password = #{record.password},
+            </if>
+            <if test="record.email != null">
+                email = #{record.email},
+            </if>
+            <if test="record.mobile != null">
+                mobile = #{record.mobile},
+            </if>
+            <if test="record.profilePhotoUrl != null">
+                profile_photo_url = #{record.profilePhotoUrl},
+            </if>
+            <if test="record.personalStatement != null">
+                personal_statement = #{record.personalStatement},
+            </if>
+            <if test="record.lastUpdateTime != null">
+                last_update_time = #{record.lastUpdateTime}
+            </if>
+        </set>
+        <if test="_parameter != null" >
+          <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <delete id="delById" parameterType="Long">
+        delete from [user] where id = #{id}
+    </delete>
+
+    <delete id="delByIdList">
+        delete from [user] where id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item.id}
+        </foreach>
+    </delete>
+
+    <delete id="delByIdArray">
+        delete from [user] where id in
+        <foreach collection="array" item="item" open="(" close=")" separator=",">
+            #{item.id}
+        </foreach>
+    </delete>
+</mapper>

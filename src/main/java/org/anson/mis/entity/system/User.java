@@ -1,35 +1,21 @@
 package org.anson.mis.entity.system;
 
+import org.anson.mis.entity.BaseEntity;
 import org.anson.mis.entity.secure.Role;
 
 import java.util.Date;
 import java.util.Set;
 
-public class User {
-    private Long id;
-
+public class User extends BaseEntity {
     private String no;
     private String name;
     private String password;
     private String email;
     private String mobile;
-
-    private Date createTime;
-    private String createUserId;
-    private Date modifiedTime;
-    private String modifiedUserId;
-
-    private Set<Role> roleSet;
+    private String profilePhotoUrl;
+    private String personalStatement;
 
     public User() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNo() {
@@ -72,43 +58,19 @@ public class User {
         this.mobile = mobile;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getProfilePhotoUrl() {
+        return profilePhotoUrl;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setProfilePhotoUrl(String profilePhotoUrl) {
+        this.profilePhotoUrl = profilePhotoUrl;
     }
 
-    public String getCreateUserId() {
-        return createUserId;
+    public String getPersonalStatement() {
+        return personalStatement;
     }
 
-    public void setCreateUserId(String createUserId) {
-        this.createUserId = createUserId;
-    }
-
-    public Date getModifiedTime() {
-        return modifiedTime;
-    }
-
-    public void setModifiedTime(Date modifiedTime) {
-        this.modifiedTime = modifiedTime;
-    }
-
-    public String getModifiedUserId() {
-        return modifiedUserId;
-    }
-
-    public void setModifiedUserId(String modifiedUserId) {
-        this.modifiedUserId = modifiedUserId;
-    }
-
-    public Set<Role> getRoleSet() {
-        return roleSet;
-    }
-
-    public void setRoleSet(Set<Role> roleSet) {
-        this.roleSet = roleSet;
+    public void setPersonalStatement(String personalStatement) {
+        this.personalStatement = personalStatement;
     }
 }

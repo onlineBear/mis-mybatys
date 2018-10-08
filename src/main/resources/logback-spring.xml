@@ -11,7 +11,7 @@
     <!-- 日志输出格式 -->
   	<property name="log.pattern" value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) |-%-5level %c -| %msg%n" />
   	<!-- 控制台日志级别 -->
-  	<property name="console.level" value="info" />
+  	<property name="console.level" value="error" />
   	<!-- sql语句级别 -->
   	<property name="mapper.level" value="debug" />
 
