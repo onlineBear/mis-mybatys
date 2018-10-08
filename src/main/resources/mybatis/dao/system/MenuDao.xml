@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="org.anson.mis.dao.system.UserDao">
+<mapper namespace="org.anson.mis.dao.system.MenuDao">
 
-    <resultMap id="baseMap" type="User">
+    <resultMap id="baseMap" type="menu">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="no" property="no" jdbcType="NVARCHAR"/>
         <result column="name" property="name" jdbcType="NVARCHAR"/>
-        <result column="password" property="password" jdbcType="NVARCHAR"/>
-        <result column="email" property="email" jdbcType="NVARCHAR"/>
-        <result column="mobile" property="mobile" jdbcType="NVARCHAR"/>
-        <result column="profilePhotoUrl" property="profilePhotoUrl" jdbcType="NVARCHAR"/>
-        <result column="personalStatement" property="personalStatement" jdbcType="NVARCHAR"/>
+        <result column="iconUrl" property="iconUrl" jdbcType="NVARCHAR"/>
+        <result column="isContent" property="isContent" jdbcType="BOOLEAN"/>
+        <result column="level" property="level" jdbcType="INTEGER"/>
+        <result column="description" property="description" jdbcType="NVARCHAR"/>
+        <result column="isDisplay" property="isDisplay" jdbcType="BOOLEAN"/>
         <result column="lastUpdateTime" property="lastUpdateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="baseColumns">
-      	${alias}.id, ${alias}.no, ${alias}.name, ${alias}.password,
-        ${alias}.email, ${alias}.mobile, ${alias}.profilePhotoUrl, ${alias}.personalStatement,
-        ${alias}.lastUpdateTime
+      	${alias}.id, ${alias}.no, ${alias}.name, ${alias}.iconUrl,
+        ${alias}.isContent, ${alias}.level, ${alias}.description, ${alias}.isDisplay,
+        ${alias}.lastUpdateTime, ${alias}.parentMenuId
     </sql>
 
     <sql id="Example_Where_Clause" >
@@ -81,45 +81,45 @@
     </sql>
 
     <select id="selById" parameterType="Long" resultMap="baseMap">
-		select <include refid="baseColumns"><property name="alias" value="u"/></include>
-		from [User] as u
-		where u.id = #{id}
+		select <include refid="baseColumns"><property name="alias" value="m"/></include>
+		from Menu as m
+		where m.id = #{id}
     </select>
 
     <select id="selByIds" resultMap="baseMap">
-		select <include refid="baseColumns"><property name="alias" value="u"/></include>
-		from [User] as u
-		where u.id in
+		select <include refid="baseColumns"><property name="alias" value="m"/></include>
+		from Menu as u
+		where m.id in
             <foreach collection="list" item="item" open="(" close=")" separator=",">
                 #{item.id}
             </foreach>
-        order by u.id desc
+        order by m.id desc
     </select>
 
     <select id="selByIdList" resultMap="baseMap">
-		select <include refid="baseColumns"><property name="alias" value="u"/></include>
-		from [User] as u
-		where u.id in
+		select <include refid="baseColumns"><property name="alias" value="m"/></include>
+		from Menu as u
+		where m.id in
             <foreach collection="list" item="item" open="(" close=")" separator=",">
                 #{item.id}
             </foreach>
-        order by u.id desc
+        order by m.id desc
     </select>
 
     <select id="selByIdArray" resultMap="baseMap">
-		select <include refid="baseColumns"><property name="alias" value="u"/></include>
-		from [User] as u
-		where u.id in
+		select <include refid="baseColumns"><property name="alias" value="m"/></include>
+		from Menu as m
+		where m.id in
             <foreach collection="array" item="item" open="(" close=")" separator=",">
                 #{item.id}
             </foreach>
-        order by u.id desc
+        order by m.id desc
     </select>
 
     <select id="selByExample" parameterType="example" resultMap="baseMap">
         select
-            <include refid="baseColumns"><property name="alias" value="u"/></include>
-		from [User] as u
+            <include refid="baseColumns"><property name="alias" value="m"/></include>
+		from Menu as m
             <if test="_parameter != null" >
               <include refid="Example_Where_Clause" />
             </if>
@@ -129,67 +129,72 @@
     </select>
 
     <select id="countByExample" parameterType="example" resultType="Long" >
-        select count(1) from [User]
+        select count(1) from Menu
         <if test="_parameter != null" >
           <include refid="Example_Where_Clause" />
         </if>
     </select>
 
-    <insert id="insert" parameterType="user">
-        insert into [User]
-              (id, no, name, password, email,
-              mobile, profilePhotoUrl, personalStatement, lastUpdateTime)
-        values(#{id}, #{no}, #{name}, #{password}, #{email},
-              #{mobile}, #{profilePhotoUrl}, #{personalStatement}, #{lastUpdateTime})
+    <insert id="insert" parameterType="menu">
+        insert into Menu
+              (id, parentMenuId, no, name, iconUrl,
+              isContent, level, description, isDisplay, lastUpdateTime)
+        values(#{id}, #{parentMenu.id}, #{no}, #{name}, #{iconUrl},
+              #{isContent}, #{level}, #{description}, #{isDisplay}, #{lastUpdateTime})
     </insert>
 
     <insert id="insertList">
-        insert into [User]
-            (id, no, name, password, email,
-             mobile, profilePhotoUrl, personalStatement, lastUpdateTime)
+        insert into Menu
+            (id, parentMenuId, no, name, iconUrl,
+            isContent, level, description, isDisplay, lastUpdateTime)
         values
            <foreach collection="list" item="item" separator="," open="(" close=")">
-               #{id}, #{no}, #{password}, #{email},
-               #{mobile}, #{profilePhotoUrl}, #{personalStatement}, #{lastUpdateTime}
+               #{id}, #{parentMenu.id}, #{no}, #{name}, #{iconUrl},
+               #{isContent}, #{level}, #{description}, #{isDisplay}, #{lastUpdateTime}
            </foreach>
     </insert>
 
-    <update id="updateById" parameterType="user">
-        update [User]
+    <update id="updateById" parameterType="menu">
+        update Menu
         set no = #{no},
+            parentMenuId = #{parentMenu.id},
+            no = #{no},
             name = #{name},
-            password = #{password},
-            email = #{email},
-            mobile = #{mobile},
-            profilePhotoUrl = #{profilePhotoUrl},
-            personalStatement = #{personalStatement},
+            iconUrl = #{iconUrl},
+            isContent = #{isContent},
+            level = #{level},
+            description = #{description},
+            isDisplay = #{isDisplay},
             lastUpdateTime = #{lastUpdateTime}
         where id = #{id}
     </update>
 
-    <update id="updateByIdSelective" parameterType="user">
-        update [User]
+    <update id="updateByIdSelective" parameterType="menu">
+        update Menu
         <set>
+            <if test="parentMenu.id != null">
+                parentMenuId = #{parentMenu.id},
+            </if>
             <if test="no != null">
                 no = #{no},
             </if>
             <if test="name != null">
                 name = #{name},
             </if>
-            <if test="password != null">
-                password = #{password},
+            <if test="iconUrl != null">
+                iconUrl = #{iconUrl},
             </if>
-            <if test="email != null">
-                email = #{email},
+            <if test="isContent != null">
+                isContent = #{isContent},
             </if>
-            <if test="mobile != null">
-                mobile = #{mobile},
+            <if test="level != null">
+                level = #{level},
             </if>
-            <if test="profilePhotoUrl != null">
-                profilePhotoUrl = #{profilePhotoUrl},
+            <if test="description != null">
+                description = #{description},
             </if>
-            <if test="personalStatement != null">
-                personalStatement = #{personalStatement},
+            <if test="isDisplay != null">
+                isDisplay = #{isDisplay},
             </if>
             <if test="lastUpdateTime">
                 lastUpdateTime = #{lastUpdateTime}
@@ -199,14 +204,16 @@
     </update>
 
     <update id="updateByExample" parameterType="map">
-        update [User]
+        update Menu
         set no = #{record.no},
+            parentMenuId = #{record.parentMenu.id},
+            no = #{record.no},
             name = #{record.name},
-            password = #{record.password},
-            email = #{record.email},
-            mobile = #{record.mobile},
-            profilePhotoUrl = #{record.profilePhotoUrl},
-            personalStatement = #{record.personalStatement},
+            iconUrl = #{record.iconUrl},
+            isContent = #{record.isContent},
+            level = #{record.level},
+            description = #{record.description},
+            isDisplay = #{record.isDisplay},
             lastUpdateTime = #{record.lastUpdateTime}
         <if test="_parameter != null" >
           <include refid="Update_By_Example_Where_Clause" />
@@ -216,28 +223,31 @@
     <update id="updateByExampleSelective" parameterType="map">
         update [User]
         <set>
+            <if test="record.parentMenu.id != null">
+                parentMenuId = #{record.parentMenu.id},
+            </if>
             <if test="record.no != null">
                 no = #{record.no},
             </if>
             <if test="record.name != null">
                 name = #{record.name},
             </if>
-            <if test="record.password != null">
-                password = #{record.password},
+            <if test="record.iconUrl != null">
+                iconUrl = #{record.iconUrl},
             </if>
-            <if test="record.email != null">
-                email = #{record.email},
+            <if test="record.isContent != null">
+                isContent = #{record.isContent},
             </if>
-            <if test="record.mobile != null">
-                mobile = #{record.mobile},
+            <if test="record.level != null">
+                level = #{record.level},
             </if>
-            <if test="record.profilePhotoUrl != null">
-                profilePhotoUrl = #{record.profilePhotoUrl},
+            <if test="record.description != null">
+                description = #{record.description},
             </if>
-            <if test="record.personalStatement != null">
-                personalStatement = #{record.personalStatement},
+            <if test="record.isDisplay != null">
+                isDisplay = #{record.isDisplay},
             </if>
-            <if test="record.lastUpdateTime != null">
+            <if test="record.lastUpdateTime">
                 lastUpdateTime = #{record.lastUpdateTime}
             </if>
         </set>
@@ -247,18 +257,18 @@
     </update>
 
     <delete id="delById" parameterType="Long">
-        delete from [User] where id = #{id}
+        delete from Menu where id = #{id}
     </delete>
 
     <delete id="delByIdList">
-        delete from [User] where id in
+        delete from Menu where id in
         <foreach collection="list" item="item" open="(" close=")" separator=",">
             #{item.id}
         </foreach>
     </delete>
 
     <delete id="delByIdArray">
-        delete from [User] where id in
+        delete from Menu where id in
         <foreach collection="array" item="item" open="(" close=")" separator=",">
             #{item.id}
         </foreach>

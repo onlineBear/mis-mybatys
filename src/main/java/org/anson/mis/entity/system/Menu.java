@@ -1,44 +1,26 @@
 package org.anson.mis.entity.system;
 
-import java.util.Date;
-import java.util.Set;
+import org.anson.mis.entity.BaseEntity;
 
-public class Menu {
-    private Long id;
-
-    private Long parentMenuId;
-
+public class Menu extends BaseEntity {
+    private Menu parentMenu;
     private String no;
     private String name;
-    private String description;
-    private Boolean isContext;
+    private String iconUrl;
+    private Boolean isContent;
     private Integer level;
-
-    private Date createTime;
-    private String createUserId;
-    private Date modifiedTime;
-    private String modifiedUserId;
-
-    private Set<Menu> childMenu;
-    private Menu parentMenu;
+    private String description;
+    private Boolean isDisplay;
 
     public Menu() {
     }
 
-    public Long getId() {
-        return id;
+    public Menu getParentMenu() {
+        return parentMenu;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getParentMenuId() {
-        return parentMenuId;
-    }
-
-    public void setParentMenuId(Long parentMenuId) {
-        this.parentMenuId = parentMenuId;
+    public void setParentMenu(Menu parentMenu) {
+        this.parentMenu = parentMenu;
     }
 
     public String getNo() {
@@ -57,20 +39,20 @@ public class Menu {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getIconUrl() {
+        return iconUrl;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
     }
 
-    public Boolean getContext() {
-        return isContext;
+    public Boolean getContent() {
+        return isContent;
     }
 
-    public void setContext(Boolean context) {
-        isContext = context;
+    public void setContent(Boolean content) {
+        isContent = content;
     }
 
     public Integer getLevel() {
@@ -81,51 +63,19 @@ public class Menu {
         this.level = level;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getCreateUserId() {
-        return createUserId;
+    public Boolean getDisplay() {
+        return isDisplay;
     }
 
-    public void setCreateUserId(String createUserId) {
-        this.createUserId = createUserId;
-    }
-
-    public Date getModifiedTime() {
-        return modifiedTime;
-    }
-
-    public void setModifiedTime(Date modifiedTime) {
-        this.modifiedTime = modifiedTime;
-    }
-
-    public String getModifiedUserId() {
-        return modifiedUserId;
-    }
-
-    public void setModifiedUserId(String modifiedUserId) {
-        this.modifiedUserId = modifiedUserId;
-    }
-
-    public Set<Menu> getChildMenu() {
-        return childMenu;
-    }
-
-    public void setChildMenu(Set<Menu> childMenu) {
-        this.childMenu = childMenu;
-    }
-
-    public Menu getParentMenu() {
-        return parentMenu;
-    }
-
-    public void setParentMenu(Menu parentMenu) {
-        this.parentMenu = parentMenu;
+    public void setDisplay(Boolean display) {
+        isDisplay = display;
     }
 }

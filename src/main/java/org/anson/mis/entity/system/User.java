@@ -1,18 +1,44 @@
 package org.anson.mis.entity.system;
 
 import org.anson.mis.entity.BaseEntity;
-import org.anson.mis.entity.secure.Role;
 
-import java.util.Date;
-import java.util.Set;
-
+/**
+ * 用户
+ */
 public class User extends BaseEntity {
+    /**
+     * 用户编码
+     */
     private String no;
+
+    /**
+     * 用户名
+     */
     private String name;
+
+    /**
+     * 密码
+     */
     private String password;
+
+    /**
+     * 邮箱
+     */
     private String email;
+
+    /**
+     * 手机号
+     */
     private String mobile;
+
+    /**
+     * 头像url
+     */
     private String profilePhotoUrl;
+
+    /**
+     * 个人签名
+     */
     private String personalStatement;
 
     public User() {

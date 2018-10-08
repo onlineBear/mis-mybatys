@@ -13,5 +13,6 @@
         <typeAlias type="org.anson.mis.entity.Example" alias="example"/>
         <!-- secure -->
         <typeAlias type="org.anson.mis.entity.system.User" alias="user"/>
+        <typeAlias type="org.anson.mis.entity.system.Menu" alias="menu"/>
     </typeAliases>
 </configuration>
