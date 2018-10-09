@@ -12,6 +12,19 @@
         <result column="description" property="description" jdbcType="NVARCHAR"/>
         <result column="isDisplay" property="isDisplay" jdbcType="BOOLEAN"/>
         <result column="lastUpdateTime" property="lastUpdateTime" jdbcType="TIMESTAMP"/>
+        <association property="parentMenu" column="parentMenuId" javaType="Menu" resultMap="parentMenu" />
+    </resultMap>
+
+    <resultMap id="parentMenuMap" type="menu">
+        <id column="parentMenuId" property="id" jdbcType="BIGINT"/>
+        <result column="parentMenuNo" property="no" jdbcType="NVARCHAR"/>
+        <result column="parentMenuName" property="name" jdbcType="NVARCHAR"/>
+        <result column="parentMenuIconUrl" property="iconUrl" jdbcType="NVARCHAR"/>
+        <result column="parentMenuIsContent" property="isContent" jdbcType="BOOLEAN"/>
+        <result column="parentMenuLevel" property="level" jdbcType="INTEGER"/>
+        <result column="parentMenuDescription" property="description" jdbcType="NVARCHAR"/>
+        <result column="parentMenuIsDisplay" property="isDisplay" jdbcType="BOOLEAN"/>
+        <result column="parentMenuLastUpdateTime" property="lastUpdateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="baseColumns">
@@ -81,8 +94,12 @@
     </sql>
 
     <select id="selById" parameterType="Long" resultMap="baseMap">
-		select <include refid="baseColumns"><property name="alias" value="m"/></include>
+		select m.id, m.no, m.name, m.iconUrl, m.isContent,
+               m.level, m.description, m.isDisplay, m.lastUpdateTime,
+               m.parentMenuId, pm.no, pm.name, pm.iconUrl, pm.isContent,
+               pm.level, pm.description, pm.isDisplay, parentMenuLastUpdateTime = pm.lastUpdateTime,
 		from Menu as m
+        left join Menu as pm on m.parentMenuId=pm.id
 		where m.id = #{id}
     </select>
 
